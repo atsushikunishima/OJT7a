@@ -1,10 +1,12 @@
+# OJT7a
+
 このプロジェクトは、業務用のプロジェクトのため、kunishima@jv-it.com.vnのアカウントでpull,pushを行います。
 
 ## 設定済み情報
 
 - **GitHubユーザー名**: atsushikunishima
 - **メールアドレス**: kunishima@jv-it.com.vn
-- **リポジトリURL**: https://github.com/atsushikunishima/CursorOJT7.git
+- **リポジトリURL**: https://github.com/atsushikunishima/OJT7a.git
 - **接続方法**: HTTPS + PAT (Personal Access Token)
 
 ## 使用方法
