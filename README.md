@@ -1,4 +1,4 @@
-- Githubユーザー名：{登録名(プロフィールのURLに記載)}
-- Githubメールアドレス：{name}@jv-it.com.vn
-- リポジトリURL：https://github.com/{登録名}/{リポジトリ名}.git
+- Githubユーザー名：atsushikunishima
+- Githubメールアドレス：kunishima@jv-it.com.vn
+- リポジトリURL：https://github.com/atsushikunishima/OJT7a.git
 - 今の気持ち: 髪が伸びてきたから年内には切りたい
