@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>お問い合わせ - ダーティヨーグルト</title>
+  <link rel="icon" href="images/logo.png">
+  <style>
+    :root {
+      --primary: #26c4fc;
+      --primary-dark: #115489;
+      --bg: #f3f4f6;
+      --card-bg: #ffffff;
+      --border-radius-lg: 16px;
+      --border-radius-sm: 8px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.12);
+      --shadow-light: 0 4px 16px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #e0f7ff 0, #f9fafb 50%, #f1f5f9 100%);
+      color: #0f172a;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .site-header {
+      background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+      color: #fff;
+      box-shadow: var(--shadow-light);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-area img {
+      height: 40px;
+      width: auto;
+    }
+
+    .logo-text-main {
+      font-weight: 700;
+      letter-spacing: .04em;
+      font-size: 15px;
+    }
+
+    .logo-text-sub {
+      font-size: 12px;
+      opacity: .9;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    nav a {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      text-decoration: none;
+      color: #e5f6ff;
+      border: 1px solid transparent;
+      transition: background-color .18s ease, color .18s ease, transform .12s ease, box-shadow .18s ease, border-color .18s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    nav a span {
+      margin-left: 6px;
+      font-size: 11px;
+      opacity: .8;
+    }
+
+    nav a:hover {
+      background: rgba(15, 23, 42, 0.14);
+      border-color: rgba(148, 163, 184, 0.7);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.28);
+    }
+
+    nav a.is-current {
+      background: #f9fafb;
+      color: var(--primary-dark);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.35);
+      border-color: rgba(148, 163, 184, 0.9);
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      padding: 36px 16px 40px;
+    }
+
+    .contact-layout {
+      width: 100%;
+      max-width: 1040px;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .contact-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--shadow-soft);
+      padding: 26px 26px 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    .contact-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: #0ea5e9;
+    }
+
+    .contact-title {
+      font-size: 22px;
+      letter-spacing: .04em;
+      margin: 4px 0 6px;
+      color: #0f172a;
+    }
+
+    .contact-lead {
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.7;
+    }
+
+    form {
+      margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #0f172a;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    label .required {
+      color: #ef4444;
+      font-size: 11px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea,
+    select {
+      width: 100%;
+      border-radius: var(--border-radius-sm);
+      border: 1px solid #d1d5db;
+      padding: 9px 11px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #0f172a;
+      background: #f9fafb;
+      transition: border-color .16s ease, box-shadow .16s ease, background-color .16s ease, transform .08s ease;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #9ca3af;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.6), 0 0 0 4px rgba(191, 219, 254, 0.9);
+      transform: translateY(-0.5px);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .helper-text {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    .submit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    .submit-row small {
+      font-size: 10px;
+      color: #9ca3af;
+    }
+
+    button[type="submit"] {
+      appearance: none;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 22px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: #ffffff;
+      background: radial-gradient(circle at top left, #38bdf8 0, #0ea5e9 40%, #0369a1 100%);
+      box-shadow: 0 16px 35px rgba(56, 189, 248, 0.55);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform .12s ease, box-shadow .16s ease, filter .14s ease;
+      white-space: nowrap;
+    }
+
+    button[type="submit"]:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 40px rgba(56, 189, 248, 0.7);
+      filter: brightness(1.03);
+    }
+
+    button[type="submit"]:active {
+      transform: translateY(0);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.4);
+      filter: brightness(.96);
+    }
+
+    button[type="submit"] span.icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.22);
+    }
+
+    button[type="submit"] svg {
+      width: 11px;
+      height: 11px;
+      fill: #e0f2fe;
+    }
+
+    .contact-side {
+      border-radius: var(--border-radius-lg);
+      padding: 22px 22px 20px;
+      background: radial-gradient(circle at top, rgba(248, 250, 252, 0.96) 0, rgba(226, 232, 240, 0.98) 42%, rgba(15, 23, 42, 0.96) 100%), url("images/9.jpg") center/cover no-repeat;
+      color: #0f172a;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(30, 64, 175, 0.45);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-side::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at top left, rgba(59, 130, 246, 0.25), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(45, 212, 191, 0.25), transparent 55%);
+      opacity: .9;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .contact-side-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      padding: 4px 9px 4px 4px;
+      border-radius: 999px;
+      border: 1px solid rgba(15, 23, 42, 0.2);
+      background: rgba(248, 250, 252, 0.92);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);
+      align-self: flex-start;
+    }
+
+    .pill-avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: conic-gradient(from 140deg, #22d3ee, #a855f7, #0ea5e9, #22d3ee);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e0f2fe;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .pill strong {
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .pill span {
+      color: #64748b;
+    }
+
+    .side-title {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #020617;
+    }
+
+    .side-body {
+      font-size: 13px;
+      color: #0f172a;
+      line-height: 1.7;
+    }
+
+    .side-body strong {
+      font-weight: 700;
+      color: #020617;
+    }
+
+    .side-items {
+      margin-top: 4px;
+      display: grid;
+      gap: 10px;
+      font-size: 13px;
+      color: #020617;
+    }
+
+    .side-item-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      color: #4b5563;
+      margin-bottom: 2px;
+    }
+
+    .side-item-main {
+      font-weight: 600;
+    }
+
+    .side-meta {
+      margin-top: 10px;
+      font-size: 11px;
+      color: #4b5563;
+    }
+
+    .side-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .side-meta-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.5);
+    }
+
+    .back-link {
+      position: fixed;
+      left: 16px;
+      bottom: 16px;
+      z-index: 20;
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #0f172a;
+      background: rgba(248, 250, 252, 0.96);
+      border-radius: 999px;
+      padding: 6px 11px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.35);
+      backdrop-filter: blur(10px);
+      transition: transform .12s ease, box-shadow .16s ease, background-color .16s ease;
+    }
+
+    .back-link svg {
+      width: 13px;
+      height: 13px;
+      fill: #0f172a;
+    }
+
+    .back-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.45);
+      background: #ffffff;
+    }
+
+    footer {
+      padding: 10px 16px 16px;
+      text-align: center;
+      font-size: 10px;
+      color: #9ca3af;
+    }
+
+    @media (max-width: 960px) {
+      .contact-layout {
+        grid-template-columns: minmax(0, 1fr);
+        max-width: 640px;
+      }
+
+      .contact-side {
+        order: -1;
+      }
+
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      main {
+        padding: 24px 12px 32px;
+      }
+
+      .contact-card {
+        padding: 22px 18px 20px;
+      }
+
+      .contact-layout {
+        gap: 18px;
+      }
+
+      .field-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .submit-row {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+      }
+
+      .back-link {
+        position: static;
+        margin: 0 auto 10px;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo-area">
+        <img src="images/logo.png" alt="ダーティヨーグルト ロゴ">
+        <div>
+          <div class="logo-text-main">DIRTY YOGURT</div>
+          <div class="logo-text-sub">ホーチミン産の新鮮なヨーグルト</div>
+        </div>
+      </div>
+      <nav aria-label="グローバルナビゲーション">
+        <ul>
+          <li><a href="index.html">トップ</a></li>
+          <li><a href="contact.html" class="is-current">お問い合わせ<span>Contact</span></a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="contact-layout">
+      <section class="contact-card" aria-labelledby="contact-title">
+        <div>
+          <div class="contact-eyebrow">CONTACT</div>
+          <h1 id="contact-title" class="contact-title">お問い合わせ</h1>
+          <p class="contact-lead">
+            ご質問・ご相談・お見積りのご依頼などがございましたら、下記フォームよりお気軽にお問い合わせください。<br>
+            送信後は担当者より、通常 <strong>1〜2営業日以内</strong> にご連絡いたします。
+          </p>
+        </div>
+
+        <form
+          id="contact-form"
+          action="#"
+          method="post"
+          onsubmit="event.preventDefault(); alert('これはモック画面のため、実際には送信されません。');"
+        >
+          <div class="field-row">
+            <div>
+              <label for="name">
+                お名前 <span class="required">必須</span>
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                autocomplete="name"
+                required
+                placeholder="例）山田 太郎"
+              >
+            </div>
+            <div>
+              <label for="kana">
+                お名前（カナ）
+              </label>
+              <input
+                type="text"
+                id="kana"
+                name="kana"
+                placeholder="例）ヤマダ タロウ"
+              >
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div>
+              <label for="email">
+                メールアドレス <span class="required">必須</span>
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                autocomplete="email"
+                required
+                placeholder="例）example@example.com"
+              >
+              <p class="helper-text">※ 確認用メールをお送りできるアドレスをご入力ください。</p>
+            </div>
+            <div>
+              <label for="tel">
+                お電話番号
+              </label>
+              <input
+                type="tel"
+                id="tel"
+                name="tel"
+                autocomplete="tel"
+                placeholder="例）090-1234-5678"
+              >
+            </div>
+          </div>
+
+          <div>
+            <label for="type">
+              お問い合わせ種別 <span class="required">必須</span>
+            </label>
+            <select id="type" name="type" required>
+              <option value="" hidden>選択してください</option>
+              <option value="product">商品について</option>
+              <option value="order">ご注文・お届けについて</option>
+              <option value="wholesale">卸販売・お取引について</option>
+              <option value="other">その他のお問い合わせ</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="message">
+              お問い合わせ内容 <span class="required">必須</span>
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              required
+              placeholder="ご質問やご要望など、できるだけ具体的にご記入ください。"
+            ></textarea>
+          </div>
+
+          <div class="submit-row">
+            <small>
+              ※ これはOJT用のモック画面です。実際の送信処理や保存処理は行われません。<br>
+              入力された内容はブラウザ内のみで利用され、サーバーには送信されません。
+            </small>
+            <button type="submit">
+              送信する
+              <span class="icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4.5 20.25L19.5 12 4.5 3.75 4.5 10.5 12 12 4.5 13.5z"></path>
+                </svg>
+              </span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="contact-side" aria-label="お問い合わせ先情報">
+        <div class="contact-side-inner">
+          <div class="pill">
+            <div class="pill-avatar">DY</div>
+            <div>
+              <strong>Dirty Yogurt</strong><br>
+              <span>Consulting &amp; Support</span>
+            </div>
+          </div>
+
+          <h2 class="side-title">ご相談は何でもお気軽に。</h2>
+          <p class="side-body">
+            商品の選び方から店舗導入、イベントでのご利用まで、<strong>どのような小さなことでも大歓迎</strong>です。<br>
+            日本語対応のスタッフが、ホーチミン現地より丁寧にサポートいたします。
+          </p>
+
+          <div class="side-items">
+            <div>
+              <div class="side-item-label">お電話でのお問い合わせ</div>
+              <div class="side-item-main">0901-778-775</div>
+            </div>
+            <div>
+              <div class="side-item-label">メールアドレス</div>
+              <div class="side-item-main">lienhe@suadalat.com</div>
+            </div>
+            <div>
+              <div class="side-item-label">受付時間（ベトナム時間）</div>
+              <div class="side-item-main">平日 9:00 - 18:00</div>
+            </div>
+          </div>
+
+          <div class="side-meta">
+            <span>
+              <span class="side-meta-dot" aria-hidden="true"></span>
+              通常 1〜2 営業日以内にメールでご返信いたします。
+            </span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <a class="back-link" href="index.html">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M15.75 4.5L8.25 12l7.5 7.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+    <span>TOPページへ戻る</span>
+  </a>
+
+  <footer>
+    &copy; 2024 Dirty Yogurt. This contact page is a mock UI for OJT practice.
+  </footer>
+</body>
+</html>
+
+
